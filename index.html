@@ -1,0 +1,38 @@
+<html>
+	<head></head>
+	<body>
+			<main>
+					<section>
+						<input type='text' id='profile_name' placeholder='Enter the github profile you want to fetch'/>
+						<a href='#' id='fetch_github_profile'>Fetch</a>
+					</section>
+					<article>
+						<header>
+							<img>
+								<h1></h1>
+								<h2></h2>
+							</img>
+						</header>
+						<p>
+							<strong>Followers:</strong>
+							<strong>Public Repos:</strong>
+						</p>
+					</article>
+			</main>
+			<script type='text/javascript' src='jquery.js'></script>
+			<script type='text/javascript' src='handlebars.js'></script>
+			<script type='text/javascript'>
+				$('#fetch_github_profile').on('click', function() {
+					var proile_name = $('#profile_name').val();
+					var source = $("#profileTemplate").html();
+					var template = handlebars.compile(source);
+					$.get('https://api.github.com/users/' + profile_name + '', function(data) {
+						console.log(data);
+						$('article header img').attr('src', data.avatar_url);
+						$('article header h1').text(data.name);
+						$('article header h2').text(data.login);
+					});
+				});
+				</script>
+	</body>
+</html>
