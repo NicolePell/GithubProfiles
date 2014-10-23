@@ -1,0 +1,52 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<main>
+			<section>
+				<input type='text' id='profile_name' placeholder='Enter Github Username'/>
+				<a href='#' id='fetch_github_profile'>Fetch profile</a>
+			</section>
+			<script id='profileTemplate' type='text/x-handlebars-template'>
+			<article>
+				<header>
+					<img>
+						<h1>{{data.name}}</h1>
+						<h2></h2>
+						<p id='followers'></p>
+						<p id='repositories'></p>
+					</img>
+				</header>
+			</article>
+			</script>
+		</main>
+
+		<script type='text/javascript' src='jquery.js'></script>
+		<script type='text/javascript' src='handlebars.js'></script>
+		<script type='text/javascript'>
+			$(document).ready(function() {
+				var userName;
+				$('#fetch_github_profile').on('click', function() {
+					userName = $('#profile_name').val();
+					var source = $('#profileTemplate').html();
+					var template = Handlebars.compile(source);
+					$.get('https://api.github.com/users/' + userName + '464dc59ce034842cda6d5e3b7f02d2d47f7fa98b', function(data) { 
+						$('article header h1').text("Name: " + data['name']);
+						$('article header h2').text("User name: " + data['login']);
+						$('article header img').attr('src', data['avatar_url']);
+						$('#followers').text("Followers: " + data['followers']);
+						$('#repositories').text("Repositories: " + data['public_repos'])
+
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
+
+<!-- <div class="entry">
+  <h1>{{title}}</h1>
+  <div class="body">
+    {{body}}
+  </div>
+</div> -->
